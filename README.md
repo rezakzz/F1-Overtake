@@ -121,7 +121,7 @@ This project was developed as a Web Programming course assignment.
 
 ## 👨‍💻 Author
 
-* Reza Fahlevi
+* Reza Fahlevi Khuzaini
 
 GitHub:
 [https://github.com/rezakzz](https://github.com/rezakzz)
