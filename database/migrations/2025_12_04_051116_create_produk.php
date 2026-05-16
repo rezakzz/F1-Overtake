@@ -11,23 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('produk', function (Blueprint $table) {
+        Schema::create('produks', function (Blueprint $table) {
             $table->id();
-            $table->string('kategori');
-            $table->longText('namaProduk');
-            $table->string('slug');
-            $table->float('price');
-            $table->longText('background');
-            $table->longText('cover');
+            $table->longText('name');
+            $table->string('category');
+            $table->decimal('price', 15, 0);
+            $table->integer('stock')->default(0);
+            $table->string('cover');
+            $table->string('team_slug')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('produk');
+        Schema::dropIfExists('produks');
     }
 };

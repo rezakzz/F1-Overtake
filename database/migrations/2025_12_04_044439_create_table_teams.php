@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('table_teams', function (Blueprint $table) {
             $table->id();
-            $table-> string('title');
-            $table-> longText('cover');
-            $table-> string('color');
-            $table-> string('slug');
+            $table->string('name');         
+            $table->string('slug')->unique(); 
+            $table->string('color');      
+            $table->string('logo');      
+            $table->string('background')->default('images/background.jpg'); 
             $table->timestamps();
         });
     }

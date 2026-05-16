@@ -1,4 +1,4 @@
-<a href="KatalogDriver_Leclerc.html">
+<a href="{{ route('landing.Katalog', $slug) }}">
     <div class="product-card">
         <img src="{{$cover}}" alt="Driver F1" class="product-image">
         <div class="product-info">

@@ -2,48 +2,86 @@
 @section('title', 'Home Page')
 @section('content')
 @include('components.navbar')
+
+    @if(session('success') || session('error'))
+    <div class="container mt-3">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+    </div>
+    @endif
     <section class="hero">
         <div class="hero-content">
             <span class="hero-subtitle">KOLEKSI MUSIM 2025</span>
             <h1 class="hero-title">AUTHENTIC TEAM GEAR</h1>
             <p class="hero-description">Rasakan kecepatan. Kenakan kebanggaan.</p>
-            <a href="{{route ('landing.Katalog', 'Formula 1 Teams') }}" class="btn btn-primary">Belanja Sekarang</a>
         </div>
-        <div class="hero-background-image" style="background-image: url(images/background.jpg);"></div>
+        
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="{{ asset('/images/vid_bg2.MP4') }}" type="video/mp4">
+        </video>
+
+        <div class="hero-overlay"></div>
+
     </section>
 
     <main class="container">
-        <section class="team-section">
+        <section class="team-section" id="teams">
             <h2 class="section-title">F1 Racing Teams</h2>
-            <div class="team-grid">
-                @component('components.team_card')
-                    @slot('logo', 'images/ferrari-emblem-logo-vector-11574121617ycsermualj-removebg-preview.png')
-                    @slot('name', 'Ferrari')
-                    @slot('color', '#DC0000')
-                @endcomponent
+            <div class="team-grid swipe-row">
+                @foreach($teams as $team)
+                    @include('components.team_card', [
+                        'name' => $team->name,      
+                        'color' => $team->color,
+                        'logo' => asset($team->logo),
+                        'slug' => $team->slug
+                    ])
+                @endforeach
             </div>
         </section>
 
         <section class="product-section">
             <h2 class="section-title">Produk Terlaris</h2>
-            <div class="product-grid">
-                @component('components.product_card')
-                    @slot('cover', 'images/Kaus-Polo-Scuderia-Ferrari-2025-Team-Pria.jpg')
-                    @slot('category', 'Polo Shirt')
-                    @slot('name', 'Kaus Polo Scuderia Ferrari 2025 Team Pria')
-                    @slot('price', 'Rp 1.450.000')
-                @endcomponent
+        
+            <div class="product-grid swipe-row">
+                @forelse($bestSellers as $product)
+                    @include('components.product_card', [
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'category' => $product->category,
+                        'price' => 'Rp ' . number_format($product->price, 0, ',', '.'),
+                        'cover' => $product->cover
+                    ])
+                @empty
+                    <p class="text-muted text-center">
+                        Belum ada produk terlaris.
+                    </p>
+                @endforelse
             </div>
         </section>
 
         <section class="product-section">
             <h2 class="section-title">Driver Populer</h2>
-            <div class="product-grid">
-                @component('components.driver_card')
-                    @slot('cover', 'images/charlesleclerc.jpg')
-                    @slot('team', 'Ferrari')
-                    @slot('name', 'Charles Leclerc')
-                @endcomponent
+            
+            <div class="product-grid swipe-row">
+                @foreach($drivers as $driver)        
+                    @component('components.driver_card')
+                        @slot('cover', asset($driver->image_path)) 
+                        @slot('team', $driver->team) 
+                        @slot('name', $driver->name) 
+                        @slot('slug', \Illuminate\Support\Str::slug($driver->team))
+                    @endcomponent  
+                @endforeach
             </div>
         </section>
     </main>

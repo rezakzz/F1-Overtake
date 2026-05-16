@@ -1,6 +1,6 @@
-<a href="KatalogItem_Kaus-Polo-Scuderia-Ferrari-2025-Team-Pria.html">
+<a href="{{ route('product.detail', $id ?? 1) }}">
     <div class="product-card">
-        <img src="{{ asset($cover) }}" alt="Produk F1" class="product-image">
+        <img src="{{ asset($cover) }}" alt="{{ $name }}" class="product-image">
         <div class="product-info">
             <span class="product-category">{{ $category}}</span>
             <h3>{{$name}}</h3>

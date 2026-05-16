@@ -1,26 +1,32 @@
 @extends('layouts.front')
-@section('title', 'Katalog')
+@section('title', $heroData['title']) 
+
 @section('content')
 @include('components.navbar')
     <section class="hero">
         @component('components.katalog_content')
-            @slot('cover', 'images/pexels-abed-ismail-6697875.jpg')
-            @slot('title', 'Formula 1 Teams')
-            @slot('subtitle', 'F1 Racing Teams')
-            @slot('type', 'Merchandise')
+            @slot('cover', asset($heroData['cover'])) 
+            @slot('title', $heroData['title'])
+            @slot('subtitle', $heroData['subtitle'])
+            @slot('type', $heroData['type'])
         @endcomponent
     </section>
-    
     <main class="container-katalog">
         <section class="product-section">
-            <div class="product-grid">
-    
-                @component('components.product_card')
-                    @slot('cover', 'images/Kaus-Polo-Scuderia-Ferrari-2025-Team-Pria.jpg')
-                    @slot('category', 'Polo Shirt')
-                    @slot('name', 'Kaus Polo Scuderia Ferrari 2025 Team Pria')
-                    @slot('price', 'Rp 1.450.000')
-                @endcomponent
+            <div class="product-grid swipe-row">
+                @forelse($products as $product)
+                    @component('components.product_card')
+                        @slot('id', $product->id)
+                        @slot('cover', asset($product->cover)) 
+                        @slot('category', $product->category ?? 'Merchandise') 
+                        @slot('name', $product->name)
+                        @slot('price', 'Rp ' . number_format($product->price, 0, ',', '.'))
+                    @endcomponent
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">Belum ada produk untuk tim ini.</p>
+                    </div>
+                @endforelse
                 
             </div>
         </section>
